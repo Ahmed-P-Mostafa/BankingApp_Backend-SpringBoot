@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+import static com.banking.backend.Constants.USER_SEQUENCE_NAME;
+
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -20,16 +22,15 @@ import java.util.Collections;
 @Table(name = "_user")
 public class User implements UserDetails {
     @SequenceGenerator(
-            name = SEQUENCE_NAME,
-            sequenceName = SEQUENCE_NAME,
+            name = USER_SEQUENCE_NAME,
+            sequenceName = USER_SEQUENCE_NAME,
             allocationSize = 1)
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = SEQUENCE_NAME
+            generator = USER_SEQUENCE_NAME
     )
     private Long id;
-    private final String SEQUENCE_NAME = "banking_sequence";
     private String firstName;
     private String lastName;
     private String email;
@@ -50,7 +51,6 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.userRole = userRole;
-
     }
 
     @Override

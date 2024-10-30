@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -26,7 +27,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable())  // Disable CSRF
+                .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v*/registration/**")
                         .permitAll()  // Allow access to registration APIs
@@ -51,3 +52,14 @@ public class WebSecurityConfig {
     }
 
 }
+
+/*
+    curl --location --request POST 'localhost:8080/api/v1/registration' \
+        --header 'Content-Type: application/json' \
+            --data-raw '{
+            "firstName": "Amigos",
+            "lastName": "Code",
+            "email": "hellow@amigoscode.com",
+            "password": "password"
+            }
+*/
